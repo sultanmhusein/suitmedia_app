@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       }),
       debugShowCheckedModeBanner: false,
       initialRoute: Routers.login,
-      getPages: Routers().routers,
+      getPages: Routers.routes,
     );
   }
 }

@@ -16,7 +16,7 @@ class UsersRemoteDatasourceImpl extends UsersRemoteDatasource {
   @override
   Future<UsersResponseModel?> getUsers() async {
     var response = await _network.request(
-        "GET", ApiConfig.users + "?page=1&amp;per_page=10",
+        "GET", ApiConfig.users + "?page=1&per_page=10",
         contentType: "application/json", content: "") as ResponseServer;
 
     return UsersResponseModel.fromMap(response.data);

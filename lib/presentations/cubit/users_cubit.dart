@@ -10,7 +10,7 @@ class UsersCubit extends Cubit<UsersState> {
 
   final GetUsers _getUsers;
 
-  void getUsers(String city) async {
+  void getUsers() async {
     emit(UsersLoading());
 
     var result = await _getUsers.execute();
