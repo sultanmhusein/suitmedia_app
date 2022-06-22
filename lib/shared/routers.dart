@@ -9,7 +9,7 @@ class Routers {
 
   List<GetPage> routers = [
     GetPage(name: login, page: () => LoginPage()),
-    GetPage(name: home, page: () => HomePage()),
+    GetPage(name: home, page: () => HomePage(name: Get.arguments[0])),
     GetPage(name: users, page: () => UsersPage()),
     GetPage(name: webview, page: () => WebviewPage()),
   ];
