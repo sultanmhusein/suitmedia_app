@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:suitmedia_app/presentations/cubit/users_cubit.dart';
 import 'package:suitmedia_app/presentations/theme/app_color.dart';
 import 'package:suitmedia_app/presentations/theme/app_text.dart';
+import 'package:suitmedia_app/presentations/widgets/indicator/shimmer_custom.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({Key? key}) : super(key: key);
@@ -49,53 +50,70 @@ class _UsersPageState extends State<UsersPage> {
               listener: (context, state) {},
               builder: (context, state) {
                 if (state is UsersLoaded) {
-                  print(state.users?.data?[0].firstName);
                   return Container(
                     child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: state.users?.data?.length ?? 0,
                         itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: AppColor.kLightGreyColor,
-                                      width: 0.5)),
-                            ),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                radius: 24.0,
-                                backgroundImage: NetworkImage(
-                                    state.users?.data?[index].avatar ?? ""),
-                                backgroundColor: Colors.transparent,
+                          return InkWell(
+                            onTap: () {
+                              Get.back(result: state.users?.data?[index]);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: AppColor.kLightGreyColor,
+                                        width: 0.5)),
                               ),
-                              title: Row(
-                                children: [
-                                  Text(
-                                    state.users?.data?[index].firstName ??
-                                        "First Name",
-                                    style: AppText.kTitle
-                                        .copyWith(color: AppColor.kBlackColor),
-                                  ),
-                                  Text(" "),
-                                  Text(
-                                    state.users?.data?[index].lastName ??
-                                        "Last Name",
-                                    style: AppText.kTitle
-                                        .copyWith(color: AppColor.kBlackColor),
-                                  ),
-                                ],
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  radius: 24.0,
+                                  backgroundImage: NetworkImage(
+                                      state.users?.data?[index].avatar ?? ""),
+                                  backgroundColor: Colors.transparent,
+                                ),
+                                title: Row(
+                                  children: [
+                                    Text(
+                                      state.users?.data?[index].firstName ??
+                                          "First Name",
+                                      style: AppText.kTitle.copyWith(
+                                          color: AppColor.kBlackColor),
+                                    ),
+                                    Text(" "),
+                                    Text(
+                                      state.users?.data?[index].lastName ??
+                                          "Last Name",
+                                      style: AppText.kTitle.copyWith(
+                                          color: AppColor.kBlackColor),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Text(
+                                    state.users?.data?[index].email ?? "Email",
+                                    style: AppText.kSubtitle),
                               ),
-                              subtitle: Text(
-                                  state.users?.data?[index].email ?? "Email",
-                                  style: AppText.kSubtitle),
                             ),
                           );
                         }),
                   );
                 }
-                return Center(child: Text('Loading'));
+                return ShimmerCustom(
+                    child: ListView.builder(
+                        padding: EdgeInsets.only(top: 20),
+                        itemCount: 10,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 80,
+                            decoration: BoxDecoration(
+                                color: AppColor.kGreyColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            margin: EdgeInsets.fromLTRB(18, 0, 18, 10),
+                          );
+                        }));
               },
             ),
           ),

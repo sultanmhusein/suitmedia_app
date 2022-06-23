@@ -58,9 +58,16 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 12),
               PrimaryButton(
                 onPressed: () {
-                  isPalindrome(_palindromeController.text) == true
-                      ? DialogUtils.showErrorDialog(message: "isPalindrome")
-                      : DialogUtils.showErrorDialog(message: "not palindrome");
+                  if (_palindromeController.text == null ||
+                      _palindromeController.text == "") {
+                    DialogUtils.showErrorDialog(
+                        message: "Please input something first");
+                  } else {
+                    isPalindrome(_palindromeController.text) == true
+                        ? DialogUtils.showErrorDialog(message: "isPalindrome")
+                        : DialogUtils.showErrorDialog(
+                            message: "not palindrome");
+                  }
                 },
                 label: "check".toUpperCase(),
               ),
