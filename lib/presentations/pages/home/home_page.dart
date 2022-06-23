@@ -4,7 +4,10 @@ import 'package:suitmedia_app/data/models/users_response_model.dart';
 import 'package:suitmedia_app/presentations/theme/app_asset.dart';
 import 'package:suitmedia_app/presentations/theme/app_color.dart';
 import 'package:suitmedia_app/presentations/theme/app_text.dart';
+import 'package:suitmedia_app/presentations/widgets/appbar/default_appbar.dart';
 import 'package:suitmedia_app/presentations/widgets/button/primary_button.dart';
+import 'package:suitmedia_app/presentations/widgets/content/content_header.dart';
+import 'package:suitmedia_app/presentations/widgets/content/content_user.dart';
 import 'package:suitmedia_app/shared/routers.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,20 +35,7 @@ class _HomePageState extends State<HomePage> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: users?.id == null
-            ? AppBar(
-                centerTitle: true,
-                title: Text("Home", style: AppText.kAppbar),
-                backgroundColor: AppColor.kWhiteColor,
-                elevation: 0.5,
-                leading: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: AppColor.kPrimaryColor,
-                    )),
-              )
+            ? DefaultAppbar(title: "Home")
             : AppBar(
                 title: Text(""),
                 elevation: 0,
@@ -60,27 +50,8 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Welcome',
-                          style: AppText.kCaption,
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          widget.name ?? "John",
-                          style: AppText.kBody,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              ContentHeader(
+                name: widget.name,
               ),
               Container(
                 child: Column(
@@ -103,43 +74,14 @@ class _HomePageState extends State<HomePage> {
                     users?.firstName != null &&
                             users?.lastName != null &&
                             users?.email != null
-                        ? Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    users?.firstName ?? "First Name",
-                                    style: AppText.kTitle
-                                        .copyWith(color: AppColor.kBlackColor),
-                                  ),
-                                  Text(" "),
-                                  Text(
-                                    users?.lastName ?? "Last Name",
-                                    style: AppText.kTitle
-                                        .copyWith(color: AppColor.kBlackColor),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 8),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(users?.email ?? "email",
-                                      style: AppText.kBodyDesc),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.toNamed(Routers.webview);
-                                    },
-                                    child: Text("website",
-                                        style: AppText.kBodyDesc.copyWith(
-                                            color: AppColor.kPrimaryColor,
-                                            decoration:
-                                                TextDecoration.underline)),
-                                  ),
-                                ],
-                              )
-                            ],
+                        ? ContentUser(
+                            onPressed: () {
+                              Get.toNamed(Routers.webview);
+                            },
+                            avatar: users?.avatar,
+                            firstName: users?.firstName,
+                            lastName: users?.lastName,
+                            email: users?.email,
                           )
                         : Text("Select a user to show the profile",
                             style: AppText.kBodyDesc),
